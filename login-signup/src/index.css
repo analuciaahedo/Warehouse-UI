@@ -1,0 +1,10 @@
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  height: auto;
+  background: linear-gradient(#f5f4f2, #6ba3af);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed; /* ❗ Para que no se "mueva" con el scroll */
+}
