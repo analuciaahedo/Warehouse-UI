@@ -40,10 +40,11 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs() {
+export default function BasicTabs({ isLoggedIn }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
+    // Si está logueado y el tab "Ingresar" desapareció, evitar selección inválida
     setValue(newValue);
   };
 
@@ -57,7 +58,6 @@ export default function BasicTabs() {
         mt: 4,
       }}
     >
-      {/* Tabs */}
       <Box sx={{ width: '90%', maxWidth: 800, borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={value}
@@ -65,19 +65,21 @@ export default function BasicTabs() {
           aria-label="basic tabs example"
           centered
         >
-          <Tab
-            label="Ingresar"
-            {...a11yProps(0)}
-            sx={{
-              fontFamily: 'Poppins, sans-serif',
-              fontWeight: 700,
-              fontSize: '1rem',
-              textTransform: 'none',
-            }}
-          />
+          {!isLoggedIn && (
+            <Tab
+              label="Ingresar"
+              {...a11yProps(0)}
+              sx={{
+                fontFamily: 'Poppins, sans-serif',
+                fontWeight: 700,
+                fontSize: '1rem',
+                textTransform: 'none',
+              }}
+            />
+          )}
           <Tab
             label="Inventario"
-            {...a11yProps(1)}
+            {...a11yProps(isLoggedIn ? 0 : 1)}
             sx={{
               fontFamily: 'Poppins, sans-serif',
               fontWeight: 700,
@@ -87,7 +89,7 @@ export default function BasicTabs() {
           />
           <Tab
             label="Ubicaciones"
-            {...a11yProps(2)}
+            {...a11yProps(isLoggedIn ? 1 : 2)}
             sx={{
               fontFamily: 'Poppins, sans-serif',
               fontWeight: 700,
@@ -98,15 +100,16 @@ export default function BasicTabs() {
         </Tabs>
       </Box>
 
-      {/* Paneles */}
       <Box sx={{ width: '90%', maxWidth: 800 }}>
-        <CustomTabPanel value={value} index={0}>
-          <LoginSignUp />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
+        {!isLoggedIn && (
+          <CustomTabPanel value={value} index={0}>
+            <LoginSignUp onLoginSuccess={() => {}} />
+          </CustomTabPanel>
+        )}
+        <CustomTabPanel value={value} index={isLoggedIn ? 0 : 1}>
           <Inventario />
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
+        <CustomTabPanel value={value} index={isLoggedIn ? 1 : 2}>
           <Ubicaciones />
         </CustomTabPanel>
       </Box>

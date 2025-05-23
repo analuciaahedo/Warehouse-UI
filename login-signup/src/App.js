@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
       {isLoggedIn ? (
-        <BasicTabs />
+        <BasicTabs isLoggedIn={isLoggedIn} />
       ) : (
         <LoginSignUp onLoginSuccess={() => setIsLoggedIn(true)} />
       )}
