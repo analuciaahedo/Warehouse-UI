@@ -100,7 +100,7 @@ export default function BasicTabs({ isLoggedIn }) {
         </Tabs>
       </Box>
 
-      <Box sx={{ width: '90%', maxWidth: 800 }}>
+      <Box sx={{ width: '100%' }}>
         {!isLoggedIn && (
           <CustomTabPanel value={value} index={0}>
             <LoginSignUp onLoginSuccess={() => {}} />
