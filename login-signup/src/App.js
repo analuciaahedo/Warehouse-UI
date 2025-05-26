@@ -1,8 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import LoginSignUp from './Components/LoginSignUp/LoginSignup'
-import BasicTabs from './Components/LoginSignUp/Tabs'
+import BasicTabs from './Components/Tabs'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
