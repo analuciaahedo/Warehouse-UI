@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import LoginSignUp from './LoginSignUp/LoginSignup';
 import Inventario from './Inventario';
-import Ubicaciones from './Ubicaciones';
+import MapaRobot from '../pages/MapaRobot'; // Asegúrate que esta ruta sea correcta
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,9 +44,10 @@ export default function BasicTabs({ isLoggedIn }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
-    // Si está logueado y el tab "Ingresar" desapareció, evitar selección inválida
     setValue(newValue);
   };
+
+  const getTabIndex = (offset) => (isLoggedIn ? offset : offset + 1);
 
   return (
     <Box
@@ -58,44 +59,29 @@ export default function BasicTabs({ isLoggedIn }) {
         mt: 4,
       }}
     >
-      <Box sx={{ width: '90%', maxWidth: 800, borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ width: '90%', maxWidth: 1000, borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={value}
           onChange={handleChange}
-          aria-label="basic tabs example"
+          aria-label="tabs"
           centered
         >
           {!isLoggedIn && (
             <Tab
               label="Ingresar"
               {...a11yProps(0)}
-              sx={{
-                fontFamily: 'Poppins, sans-serif',
-                fontWeight: 700,
-                fontSize: '1rem',
-                textTransform: 'none',
-              }}
+              sx={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1rem', textTransform: 'none' }}
             />
           )}
           <Tab
             label="Inventario"
-            {...a11yProps(isLoggedIn ? 0 : 1)}
-            sx={{
-              fontFamily: 'Poppins, sans-serif',
-              fontWeight: 700,
-              fontSize: '1rem',
-              textTransform: 'none',
-            }}
+            {...a11yProps(getTabIndex(0))}
+            sx={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1rem', textTransform: 'none' }}
           />
           <Tab
-            label="Ubicaciones"
-            {...a11yProps(isLoggedIn ? 1 : 2)}
-            sx={{
-              fontFamily: 'Poppins, sans-serif',
-              fontWeight: 700,
-              fontSize: '1rem',
-              textTransform: 'none',
-            }}
+            label="Ubicaciones de Paquetes"
+            {...a11yProps(getTabIndex(1))}
+            sx={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1rem', textTransform: 'none' }}
           />
         </Tabs>
       </Box>
@@ -106,11 +92,11 @@ export default function BasicTabs({ isLoggedIn }) {
             <LoginSignUp onLoginSuccess={() => {}} />
           </CustomTabPanel>
         )}
-        <CustomTabPanel value={value} index={isLoggedIn ? 0 : 1}>
+        <CustomTabPanel value={value} index={getTabIndex(0)}>
           <Inventario />
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={isLoggedIn ? 1 : 2}>
-          <Ubicaciones />
+        <CustomTabPanel value={value} index={getTabIndex(1)}>
+          <MapaRobot />
         </CustomTabPanel>
       </Box>
     </Box>
