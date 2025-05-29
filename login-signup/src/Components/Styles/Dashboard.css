@@ -1,0 +1,9 @@
+.dashboard-container {
+  display: flex;
+  justify-content: center;  /* Centra horizontalmente */
+  align-items: center;      /* Centra verticalmente si quieres */
+  height: 100vh;            /* O el alto que tengas disponible */
+  padding: 1rem;
+  box-sizing: border-box;
+}
+

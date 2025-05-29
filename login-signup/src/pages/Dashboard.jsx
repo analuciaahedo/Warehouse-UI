@@ -6,7 +6,7 @@ const Dashboard = () => {
   const position = useEmployeeSocket();
 
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
       <MapCard position={position} />
     </div>
   );

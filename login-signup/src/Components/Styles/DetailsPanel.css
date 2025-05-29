@@ -2,6 +2,7 @@
 .detail-bar {
   display: none;
   justify-content: center;
+  position: fixed;
 }
 
 .details-panel{
