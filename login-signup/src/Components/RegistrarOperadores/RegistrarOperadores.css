@@ -1,0 +1,120 @@
+/* src/Components/RegistrarOperadores.css */
+
+/* Contenedor general */
+.registrar-ops-container {
+  padding: 24px; /* 1.5rem */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  flex-wrap: wrap; /* Por si no caben en una línea */
+  gap: 20px; 
+}
+
+/* Mensaje cuando no hay operadores */
+.no-operators {
+  text-align: center;
+  color: #6b7280; /* Gris medio */
+  font-size: 1rem;
+  padding: 24px;
+}
+
+/* Contenedor de tarjetas en fila horizontal */
+.cards-wrapper {
+  display: flex;
+  align-items: flex-start; /* Para que cada tarjeta mantenga su altura */
+  gap: 8px;                 /* Espacio reducido entre tarjetas */
+  overflow-x: auto;         /* Scroll horizontal si sobran */
+  padding-bottom: 16px;
+}
+
+/* Cada tarjeta */
+.card {
+  flex-shrink: 0;
+  width: 240px;                   /* Ancho fijo */
+  background: #ffffff;
+  border: 1px solid #e5e7eb;      /* Borde gris claro */
+  border-radius: 16px;            /* <--- bordes más redondeados (antes era 12px) */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Sombra leve */
+  transition: box-shadow 0.2s ease-in-out,
+              background-color 0.2s;
+  margin-right: 4px;              /* Pequeño margen a la derecha */
+}
+
+/* Efecto al posar el cursor sobre la tarjeta */
+.card:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Si la tarjeta está expandida */
+.card.expanded {
+  background-color: #eff6ff; /* Azul muy pálido */
+}
+
+/* Cabecera (solo esta parte es clicable) */
+.card-header {
+  padding: 16px;    /* 1rem */
+  cursor: pointer;  /* Muestra cursor “mano” */
+  color: #1f2937;
+}
+
+.card-title {
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;    /* Semibold */
+  font-family: "Poppins", sans-serif;
+  color: #343a42 !important;      /* Gris oscuro */
+  margin-bottom: 4px;  /* 0.25rem */
+}
+
+.card-subtitle {
+  color: #4b5563;      /* Gris medio */
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;  /* 15px aprox. */
+  margin: 0;
+}
+
+/* Contenido expandido */
+.card-body {
+  border-top: 1px solid #e5e7eb; /* Línea superior gris */
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 16px;                 /* 1rem */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;                      /* 0.5rem entre cada párrafo */
+  text-align: center;
+}
+
+.card-body p {
+  font-size: 0.875rem; /* 14px */
+  color: #374151;      /* Gris oscuro */
+  margin: 0;
+}
+
+/* Botón “Dar de alta operador” */
+.card-button {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px 0;
+  background-color: #6ba3af; /* Azul vivo */
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  transition: background-color 0.2s;
+}
+
+.card-button:hover {
+  background-color: #1d4ed8; /* Azul más oscuro al pasar */
+}
+
+/* Texto “Operador activo” */
+.card-active {
+  margin-top: 12px;
+  color: #047857;      /* Verde */
+  font-weight: 600;
+  font-size: 0.95rem;
+}
