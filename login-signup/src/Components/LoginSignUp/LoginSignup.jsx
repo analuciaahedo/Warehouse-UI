@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useUser } from '../Context/UserContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import email_icon from '../Assets/email.png';
@@ -7,61 +8,44 @@ import logo_icon from '../Assets/logo1.png';
 import './LoginSignup.css';
 
 export default function LoginSignUp() {
-  const { login } = useUser();
+  const { login } = useUser();        // <- useUser() ya no será undefined
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [mensaje, setMensaje] = useState('');
 
   const handleLogin = async () => {
-    // 1) Intentamos llamar al servidor normalmente
     try {
-      const res = await fetch('http://192.168.1.20:3000/user/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ correo: email, password_hash: password }),
+      const res = await axios.post('http://192.168.1.20:3000/user/login', {
+        correo: email,
+        password_hash: password,
       });
-      const data = await res.json();
-      console.log('📦 Respuesta del backend:', data);
+      console.log('📦 Respuesta del backend:', res.data); // 👈 Aquí ves toda la respuesta
 
-      if (data.result === 'True') {
+
+      if (res.data.result === 'True') {
         const userData = {
-          rol: data.rol.rol,              // extraemos data.rol.rol
-          nombre_completo: data.nombre_completo || '',
-          correo: data.correo || email,
+          rol: res.data.rol.rol,
+          nombre_completo: res.data.nombre_completo || '',
+          correo: res.data.correo || email,
         };
-        login(userData);
-        console.log('ROL del usuario:', userData.rol);
+        login(userData); // <-- Guarda en contexto
+        console.log('ROL del usuario:', res.data.rol.rol);
+
 
         setMensaje('✅ Bienvenido');
-        if (userData.rol === 'Administrador') {
+        // Redirige según rol
+        if (userData.rol === 'admin') {
           navigate('/registrar-operadores');
         } else {
           navigate('/inventario');
         }
-        return;
       } else {
-        setMensaje(`❌ ${data.msg}`);
+        setMensaje(`❌ ${res.data.msg}`);
       }
     } catch (err) {
-      console.warn('⚠️ No se pudo conectar al servidor, se usará login simulado.');
-    }
-
-    // 2) Login simulado: si el servidor falla, damos acceso directo
-    //    Puedes cambiar aquí el rol por "Administrador" o "Operador"
-    const simulatedRole = 'Administrador'; // o 'Operador'
-    const userData = {
-      rol: simulatedRole,
-      nombre_completo: 'Usuario de prueba',
-      correo: email || 'test@local',
-    };
-    login(userData);
-    setMensaje('🔹 Login simulado: entrando como ' + simulatedRole);
-    // Redirigimos según el rol simulado:
-    if (simulatedRole === 'Administrador') {
-      navigate('/registrar-operadores');
-    } else {
-      navigate('/inventario');
+      console.error('🚨 Error de login:', err);
+      setMensaje('❌ Error al conectar con el servidor');
     }
   };
 
@@ -102,10 +86,10 @@ export default function LoginSignUp() {
       )}
 
       <div className="submit-container">
-        <button className="submit" onClick={handleLogin}>
-          Ingresar
-        </button>
-      </div>
-    </div>
+    <button className="submit" onClick={handleLogin}>
+      Ingresar
+    </button>
+  </div>
+</div>
   );
 }

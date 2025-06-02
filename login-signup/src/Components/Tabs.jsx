@@ -8,6 +8,7 @@ import LoginSignUp from './LoginSignUp/LoginSignup';
 import Inventario from './Inventario';
 import MapaRobot from '../pages/MapaRobot'; 
 import RegistrarOperadores from './RegistrarOperadores/RegistrarOperadores.jsx';
+import RegistrarPaquetes from './RegistrarPaquete/RegistrarPaquetes.jsx';
 
 function CustomTabPanel({ children, value, index }) {
   return (
@@ -32,21 +33,26 @@ export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
   const handleChange = (e, newValue) => setValue(newValue);
 
-  // Construimos las pestañas según el rol EXACTO que viene del backend:
   const tabs = [];
 
   if (!user) {
-    // Si no hay usuario logueado, solo mostramos la pestaña de login
     tabs.push({ label: 'Ingresar', component: <LoginSignUp /> });
   } else {
-    // Si el usuario es Administrador, agregamos la pestaña "Registrar Operadores"
     if (user.rol === 'Administrador') {
       tabs.push({
         label: 'Registrar Operadores',
         component: <RegistrarOperadores />,
       });
     }
-    // Tanto Administrador como Operador verán estas dos pestañas:
+
+    if (user.rol === 'Operador') {
+      tabs.push({
+        label: 'Registrar Paquetes',
+        component: <RegistrarPaquetes />, // 👈 NUEVA PESTAÑA
+      });
+    }
+
+    // Ambos roles pueden ver estas pestañas:
     tabs.push({ label: 'Inventario', component: <Inventario /> });
     tabs.push({ label: 'Mapa Robot', component: <MapaRobot /> });
   }
